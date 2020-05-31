@@ -12,8 +12,11 @@ def dl_path():
         p.mkdir()
     return str(p)    
 
-def download_image(i):
-    p = dl_path()
+def download_image(i, path):
+    if path is None:
+        p = dl_path()
+    else:
+        p = Path(path).expanduser().absolute()
     fn = f"{p}/{i}"
 
     r = requests.get(f"https://www.gstatic.com/prettyearth/assets/data/v2/{i}.json")
@@ -46,6 +49,8 @@ def run():
     parser = argparse.ArgumentParser(description="Download Pretty Google Earth wallpapers.")
     parser.add_argument("id", metavar="id", type=int,
                         help="the id of the wallpaper to be downloaded (e.g. 6311)")
+    parser.add_argument("-o", "--output", metavar="directory", type=str,
+                        help="the output directory (default: ~/.gearth)")
     args = parser.parse_args()
 
-    download_image(args.id)
+    download_image(args.id, args.output)
