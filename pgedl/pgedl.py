@@ -8,7 +8,7 @@ import argparse
 
 def dl_path():
     p = Path.home().joinpath(".gearth")
-    if not p.exists:
+    if not p.exists():
         p.mkdir()
     return str(p)    
 
